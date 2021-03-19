@@ -1,24 +1,24 @@
 import 'package:clean_project/core/error/exceptions.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:global_configuration/global_configuration.dart';
 
 abstract class LocalConfigurationsDataSource {
-  Future<String> getBaseUrl();
+  String getBaseUrl();
 }
 
 const CACHED_BASE_URL = 'base_url';
 
 class LocalConfigurationsDataSourceImpl
     implements LocalConfigurationsDataSource {
-  final SharedPreferences sharedPreferences;
+  final GlobalConfiguration globalConfiguration;
 
-  LocalConfigurationsDataSourceImpl({@required this.sharedPreferences});
+  LocalConfigurationsDataSourceImpl({@required this.globalConfiguration});
 
   @override
-  Future<String> getBaseUrl() {
-    final jsonString = sharedPreferences.getString(CACHED_BASE_URL);
+  String getBaseUrl() {
+    final jsonString = globalConfiguration.getValue<String>(CACHED_BASE_URL);
     if (jsonString != null) {
-      return Future.value(jsonString);
+      return jsonString;
     } else {
       throw CacheException();
     }

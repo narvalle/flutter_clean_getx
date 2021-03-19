@@ -14,12 +14,17 @@ class NumberTriviaDataSourceImpl implements NumberTriviaDataSource {
 
   @override
   Future<NumberTriviaModel> getNumberTriviaFromNumber(int number) async =>
-      httpManager.get(
-        path: number.toString(),
+      NumberTriviaModel.fromJsonMap(
+        await httpManager.get(
+          path: number.toString(),
+        ),
       );
 
   @override
-  Future<NumberTriviaModel> getNumberTriviaRandom() async => httpManager.get(
-        path: 'random',
+  Future<NumberTriviaModel> getNumberTriviaRandom() async =>
+      NumberTriviaModel.fromJsonMap(
+        await httpManager.get(
+          path: 'random',
+        ),
       );
 }

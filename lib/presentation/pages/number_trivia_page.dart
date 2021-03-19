@@ -2,6 +2,7 @@ import 'package:clean_project/injection_container.dart';
 import 'package:clean_project/presentation/bloc/bloc.dart';
 import 'package:clean_project/presentation/widgets/loading_widget.dart';
 import 'package:clean_project/presentation/widgets/message_display_widget.dart';
+import 'package:clean_project/presentation/widgets/trivia_controls_widget.dart';
 import 'package:clean_project/presentation/widgets/trivia_display_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +52,7 @@ class NumberTriviaPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 20),
-                
+                TriviaControlsWidget(),
               ],
             ),
           ),

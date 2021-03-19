@@ -12,9 +12,9 @@ class LocalConfigurationsRepositoryImpl
   LocalConfigurationsRepositoryImpl({@required this.localDataSource});
 
   @override
-  Future<Either<Failure, String>> getBaseUrl() async {
+  Either<Failure, String> getBaseUrl() {
     try {
-      final localUrl = await localDataSource.getBaseUrl();
+      final localUrl = localDataSource.getBaseUrl();
       return Right(localUrl);
     } on CacheException {
       return Left(CacheFailure());

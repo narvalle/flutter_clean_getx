@@ -71,10 +71,10 @@ class HttpManagerImpl implements HttpManager {
         .map((data) => decoder(data));
   }
 
-  _getDataFromMap(Map<String, dynamic> map) => map['data'];
+  Map<String, dynamic> _getDataFromMap(Map<String, dynamic> map) => map['data'];
 
-  _getUri(String path) async {
-    final inputEither = await repository.getBaseUrl();
+  Uri _getUri(String path) {
+    final inputEither = repository.getBaseUrl();
     final baseUrl = inputEither.fold(
       (failure) {
         throw CacheException();
@@ -108,16 +108,16 @@ class HttpManagerImpl implements HttpManager {
     return headers;
   }
 
-  _queryBuilder(String path, Map<String, dynamic> query) async {
+  String _queryBuilder(String path, Map<String, dynamic> query) {
     final buffer = StringBuffer();
-    final inputEither = await repository.getBaseUrl();
+    final inputEither = repository.getBaseUrl();
     final baseUrl = inputEither.fold(
       (failure) {
         throw CacheException();
       },
       (localCache) => localCache,
     );
-    buffer.write(baseUrl);
+    buffer.write('$baseUrl$path');
     if (query != null) {
       if (query.isNotEmpty) {
         buffer.write('?');
@@ -126,7 +126,6 @@ class HttpManagerImpl implements HttpManager {
         buffer.write('$key=$value&');
       });
     }
-    print(buffer);
     return buffer.toString();
   }
 
@@ -134,6 +133,7 @@ class HttpManagerImpl implements HttpManager {
     @required http.Response response,
     String bodyParametter,
   }) {
+    print('Response from API');
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (bodyParametter == null)
         return json.decode(response.body);

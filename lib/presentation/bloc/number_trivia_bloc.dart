@@ -35,7 +35,7 @@ class NumberTriviaBloc
       final failureOrTrivia = await getNumberTriviaFromNumber(
           Params(number: int.parse(event.number)));
       yield* _eitherLoadedOrErrorState(failureOrTrivia);
-    } else if (event is _bloc.GetNumberTriviaFromNumber) {
+    } else if (event is _bloc.GetNumberTriviaRandom) {
       yield _bloc.Loading();
       final failureOrTrivia = await getNumberTriviaRandom(NoParams());
       yield* _eitherLoadedOrErrorState(failureOrTrivia);

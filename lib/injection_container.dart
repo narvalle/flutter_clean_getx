@@ -1,4 +1,6 @@
+import 'package:clean_project/core/utils/http_manager.dart';
 import 'package:get_it/get_it.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +45,12 @@ Future<void> init() async {
     ),
   );
 
+  gi.registerLazySingleton<HttpManager>(
+    () => HttpManagerImpl(
+      repository: gi(),
+    ),
+  );
+
   //Data Sources
   gi.registerLazySingleton<NumberTriviaDataSource>(
     () => NumberTriviaDataSourceImpl(
@@ -52,7 +60,7 @@ Future<void> init() async {
 
   gi.registerLazySingleton<LocalConfigurationsDataSource>(
     () => LocalConfigurationsDataSourceImpl(
-      sharedPreferences: gi(),
+      globalConfiguration: gi(),
     ),
   );
 
@@ -65,5 +73,8 @@ Future<void> init() async {
   );
   gi.registerLazySingleton(
     () => http.Client(),
+  );
+  gi.registerLazySingleton(
+    () => GlobalConfiguration(),
   );
 }
