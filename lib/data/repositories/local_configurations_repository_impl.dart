@@ -5,10 +5,11 @@ import 'package:clean_project/domain/repositories/local_configurations_repositor
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
-class LocalConfigurationsImpl implements LocalConfigurationsRepository {
+class LocalConfigurationsRepositoryImpl
+    implements LocalConfigurationsRepository {
   final LocalConfigurationsDataSource localDataSource;
 
-  LocalConfigurationsImpl({@required this.localDataSource});
+  LocalConfigurationsRepositoryImpl({@required this.localDataSource});
 
   @override
   Future<Either<Failure, String>> getBaseUrl() async {
