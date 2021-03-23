@@ -1,3 +1,4 @@
+import 'package:clean_project/core/utils/theme.dart' as customTheme;
 import 'package:clean_project/presentation/pages/number_trivia_page.dart';
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -15,10 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: customTheme.mainTheme,
       home: NumberTriviaPage(),
     );
   }

@@ -31,17 +31,17 @@ class NumberTriviaPage extends StatelessWidget {
                 SizedBox(height: 10),
                 BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
                   builder: (_, state) {
-                    if (state is Empty) {
+                    if (state is EmptyState) {
                       return MessageDisplayWidget(
                         message: 'Start searching',
                       );
-                    } else if (state is Loading) {
+                    } else if (state is LoadingState) {
                       return LoadingWidget();
-                    } else if (state is Loaded) {
+                    } else if (state is LoadedState) {
                       return TriviaDisplayWidget(
                         numberTrivia: state.trivia,
                       );
-                    } else if (state is Error) {
+                    } else if (state is ErrorState) {
                       return MessageDisplayWidget(
                         message: state.message,
                       );

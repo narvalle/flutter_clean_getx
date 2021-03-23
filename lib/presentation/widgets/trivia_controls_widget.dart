@@ -55,11 +55,12 @@ class _TriviaControlsWidgetState extends State<TriviaControlsWidget> {
   void _dispatchFromNumber() {
     _controller.clear();
     BlocProvider.of<NumberTriviaBloc>(context)
-        .add(GetNumberTriviaFromNumber(inputStr));
+        .add(GetNumberTriviaFromNumberEvent(inputStr));
   }
 
   void _dispatchRandom() {
     _controller.clear();
-    BlocProvider.of<NumberTriviaBloc>(context).add(GetNumberTriviaRandom());
+    BlocProvider.of<NumberTriviaBloc>(context)
+        .add(GetNumberTriviaRandomEvent());
   }
 }

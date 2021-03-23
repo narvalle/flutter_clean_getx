@@ -6,15 +6,14 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'dart:async';
 
-import './bloc.dart' as _bloc;
+import './bloc.dart';
 import '../../domain/usecases/get_number_trivia_from_number.dart';
 import '../../domain/usecases/get_number_trivia_random.dart';
 
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
 
-class NumberTriviaBloc
-    extends Bloc<_bloc.NumberTriviaEvent, _bloc.NumberTriviaState> {
+class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   final GetNumberTriviaFromNumber getNumberTriviaFromNumber;
   final GetNumberTriviaRandom getNumberTriviaRandom;
 
@@ -25,29 +24,28 @@ class NumberTriviaBloc
         assert(random != null),
         this.getNumberTriviaFromNumber = fromNumber,
         this.getNumberTriviaRandom = random,
-        super(_bloc.Empty());
+        super(EmptyState());
 
   @override
-  Stream<_bloc.NumberTriviaState> mapEventToState(
-      _bloc.NumberTriviaEvent event) async* {
-    if (event is _bloc.GetNumberTriviaFromNumber) {
-      yield _bloc.Loading();
+  Stream<NumberTriviaState> mapEventToState(NumberTriviaEvent event) async* {
+    if (event is GetNumberTriviaFromNumberEvent) {
+      yield LoadingState();
       final failureOrTrivia = await getNumberTriviaFromNumber(
           Params(number: int.parse(event.number)));
       yield* _eitherLoadedOrErrorState(failureOrTrivia);
-    } else if (event is _bloc.GetNumberTriviaRandom) {
-      yield _bloc.Loading();
+    } else if (event is GetNumberTriviaRandomEvent) {
+      yield LoadingState();
       final failureOrTrivia = await getNumberTriviaRandom(NoParams());
       yield* _eitherLoadedOrErrorState(failureOrTrivia);
     }
   }
 
-  Stream<_bloc.NumberTriviaState> _eitherLoadedOrErrorState(
+  Stream<NumberTriviaState> _eitherLoadedOrErrorState(
     Either<Failure, NumberTrivia> failureOrTrivia,
   ) async* {
     yield failureOrTrivia.fold(
-      (failure) => _bloc.Error(message: _mapFailureToMessage(failure)),
-      (trivia) => _bloc.Loaded(trivia: trivia),
+      (failure) => ErrorState(message: _mapFailureToMessage(failure)),
+      (trivia) => LoadedState(trivia: trivia),
     );
   }
 
