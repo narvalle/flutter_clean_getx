@@ -1,4 +1,10 @@
 import 'package:clean_project/core/utils/http_manager.dart';
+import 'package:clean_project/data/datasources/user_data_source.dart';
+import 'package:clean_project/data/repositories/user_repository_impl.dart';
+import 'package:clean_project/domain/repositories/user_repository.dart';
+import 'package:clean_project/domain/usecases/user/get_user_from_id.dart';
+import 'package:clean_project/domain/usecases/user/get_users.dart';
+import 'package:clean_project/presentation/pages/list_users/list_users_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
@@ -28,9 +34,18 @@ Future<void> init() async {
     ),
   );
 
+  gi.registerFactory(
+    () => ListUsersBloc(
+      users: gi(),
+    ),
+  );
+
   //Use Cases
   gi.registerLazySingleton(() => GetNumberTriviaFromNumber(gi()));
   gi.registerLazySingleton(() => GetNumberTriviaRandom(gi()));
+  //users
+  gi.registerLazySingleton(() => GetUsers(gi()));
+  gi.registerLazySingleton(() => GetUserFromId(gi()));
 
   //Repositories
   gi.registerLazySingleton<NumberTriviaRepository>(
@@ -45,6 +60,12 @@ Future<void> init() async {
     ),
   );
 
+  gi.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(
+      dataSource: gi(),
+    ),
+  );
+
   gi.registerLazySingleton<HttpManager>(
     () => HttpManagerImpl(
       repository: gi(),
@@ -54,6 +75,12 @@ Future<void> init() async {
   //Data Sources
   gi.registerLazySingleton<NumberTriviaDataSource>(
     () => NumberTriviaDataSourceImpl(
+      httpManager: gi(),
+    ),
+  );
+
+  gi.registerLazySingleton<UserDataSource>(
+    () => UserDataSourceImpl(
       httpManager: gi(),
     ),
   );

@@ -1,5 +1,5 @@
 import 'package:clean_project/core/utils/theme.dart' as customTheme;
-import 'package:clean_project/presentation/pages/number_trivia_page.dart';
+import 'presentation/pages/list_users/list_users_page.dart';
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'injection_container.dart' as ic;
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: customTheme.mainTheme,
-      home: NumberTriviaPage(),
+      home: ListUsersPage(),
     );
   }
 }

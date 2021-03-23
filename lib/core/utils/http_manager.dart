@@ -28,12 +28,12 @@ class HttpManagerImpl implements HttpManager {
   HttpManagerImpl({@required this.repository});
 
   @override
-  Future get({
-    @required String path,
-    Map<String, dynamic> query,
-    Map<String, dynamic> headers,
-    String token,
-  }) async =>
+  Future get(
+          {@required String path,
+          Map<String, dynamic> query,
+          Map<String, dynamic> headers,
+          String token,
+          String bodyParametter}) async =>
       _returnResponse(
         response: await http
             .get(
@@ -46,6 +46,7 @@ class HttpManagerImpl implements HttpManager {
             throw ServerException();
           },
         ),
+        bodyParametter: bodyParametter,
       );
 
   @override
@@ -133,7 +134,7 @@ class HttpManagerImpl implements HttpManager {
     @required http.Response response,
     String bodyParametter,
   }) {
-    print('Response from API');
+    print('Response from API(${response.statusCode})');
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (bodyParametter == null)
         return json.decode(response.body);
